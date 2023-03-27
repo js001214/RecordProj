@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>회사 리스트</title>
+<html layout:decorate="~{layout}">
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <style>
 	.company{
 		display: flex;
@@ -33,7 +30,7 @@
 		border: 1px black solid;
 		border-radius: 3px ;
 		cursor: pointer;
-		margin-bottom: 1px;
+		margin-bottom: 4px;
 		width: 160px;
 		height: 35px;
 		text-align: center;
@@ -55,24 +52,28 @@
 
 	.company_team .team_board{
 		width: 100%;
-		margin: auto;
 		text-align:center;
 		margin-bottom: 5px;
-		border: 1px black solid;
+		border: 1px solid black;
 		height: 300px;
+		overflow-y: scroll;
 	}
 
-	.team_board div{
-		border: 1px solid black;
-		margin: 2px;
+	.team_board input{
+		border:none;
+		display: block;
+		width: 98%;
+		border-bottom: 0.5px rgb(151, 151, 151) solid;
+		margin-bottom: 1px;
 	}
+	
 
 	.company_team #team_submit{
 		background-color: black;
 		color: white;
 		border-radius: 10px ;
 		cursor: pointer;
-		margin-bottom: 4px;
+		margin-bottom: 7px;
 		height: 20px;
 		line-height: 17px;
 		width: 20px;
@@ -111,11 +112,19 @@
 		display: none;
 	}
 	#modal .modal_content {
-  		width:300px;
+  		width:70%;
+		height: 70%;
   		margin:100px auto;
   		padding:20px 10px;
   		background:#fff;
   		border:2px solid #666;
+	}
+	.modal_content input{
+		width: 90%;
+		margin: auto;
+		position: relative;
+		display: block;
+		margin-bottom: 10px;
 	}
 
 	#modal .modal_layer {
@@ -129,21 +138,21 @@
 	}
 	/* 모달 끝 */
 </style>
-</head>
 <!-- css 초기화 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
-<body>
+<body layout:fragment="content">
 	<div id="modal">
    
 		<div class="modal_content">
-			<input type="text" name="cname" placeholder="회사이름">
-			<input type="text" name="caddr" placeholder="회사주소">
-			<input type="text" name="cnumber" placeholder="사업자 등록번호">
-			<input type="text" name="number" placeholder="회사번호">
-		   <div>
-			   <button type="button" id="company_save">등록</button>
-			   <button type="button" id="modal_close_btn">취소</button>
-			</div>
+		
+			<input type="text" name="cname" id="cname" placeholder="회사이름">
+			<input type="text" name="caddr" id="caddr" placeholder="회사주소">
+			<input type="text" name="cnumber" id="cnumber" placeholder="사업자 등록번호">
+			<input type="text" name="number" id="number" placeholder="회사번호">
+					
+			<button type="button" id="company_save">등록</button>
+			<button type="button" id="modal_close_btn">취소</button>
+			
 		</div>
 	   
 		<div class="modal_layer"></div>
@@ -153,9 +162,6 @@
 		<div class="company_list">
 			<div id="company_submit">등록하기</div>
 			<div class="company_board">
-				
-				<div>삼성</div>
-				
 			</div>
 		</div>
 		
@@ -164,7 +170,6 @@
 			<div id="team_submit">+</div>
 
 			<div class="team_board">
-				<div>인사과</div>
 			</div>
 
 			<div id="save">저장</div>
@@ -176,10 +181,49 @@
 <script>
  	$("#company_submit").click(function(){
         $("#modal").attr("style", "display:block");
+		
     });
    
      $("#modal_close_btn").click(function(){
         $("#modal").attr("style", "display:none");
-    });     
+  		$("#cname").val('');
+  		$("#caddr").val('');
+  		$("#cnumber").val('');
+  		$("#number").val('');
+    });
+
+	$(document).ready(function() {
+	var i=1; // 변수설정은 함수의 바깥에 설정!
+  		$("#team_submit").click(function() {
+    
+   		$(".team_board").append("<input type='text' name='team"+i+"'>");
+    
+    	i++; // 함수 내 하단에 증가문 설정
+    
+
+  		});
+	});  
+
+	$(document).ready(function() {
+	$("#company_save").click(function() {
+
+		var cname=$('#cname').val();
+		var caddr=$('#caddr').val();
+		var cnumber=$('#cnumber').val();
+		var number=$('#number').val();
+
+		if(cname.length==0 || caddr.length==0 || cnumber.length==0 || number.length==0){
+			alert('데이터를 입력하셔야 합니다.');
+			
+		}else{
+			$("#modal").attr("style", "display:none");
+			$(".company_board").append("<div>"+cname+"</div>");
+			$("#cname").val('');
+  			$("#caddr").val('');
+  			$("#cnumber").val('');
+  			$("#number").val('');	
+		}
+	});
+});
 </script>
 </html>

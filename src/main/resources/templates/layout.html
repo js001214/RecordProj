@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- 반응형 작동시킬려면 meta태그에 viewport가 있어야한다. -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0 ,shrink-to-fit=no">
+<title>게임리뷰사이트</title>
+
+</head>
+<body>
+	
+	<!-- 최상단의 네비게이션 바 -->
+	<!-- 외부의 navbar.html import -->
+	
+	<nav th:replace="~{fragment/header :: header}"></nav>
+	
+	
+	<body layout:fragment="content"></body>
+	
+	<nav th:replace="~{fragment/footer :: footer}"></nav>
+	
+	<th:block layout:fragment="script"></th:block>
+	
+</body>
+</html>
