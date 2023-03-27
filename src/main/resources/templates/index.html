@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>index</title>
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+    <script
+        src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
+        crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" type="text/css" href="index.css">
+    
+</head>
+<body>
+<h1>인덱스 페이지</h1>
+
+    <div class="index_outdiv">
+        <form>
+
+            <div class="index_div1">
+                <div class="index_div1_div1">
+                    <table class="table">
+                        <tr><th>부서명 : </th><td>부서부서</td></tr>
+                        <tr><th>회원명 : </th><td>김이박최정이름</td></tr>
+                    </table>
+                </div>
+                <div class="index_div1_div2" id="date"></div>
+                <div class="index_div1_div3"><a href="/" class="index_div1_a">근무일지 등록</a></div>
+            </div>
+
+            <div class="index_div2">
+                <div class="index_div2_div1" id="sgw"></div>
+                <div class="index_div2_div2" id="slw">퇴근 시간 조회</div>
+
+
+                <button class="index_div2_button1" id="gw">출근</button><!-- class="btn btn-success" -->
+                <button class="index_div2_button2" id="lw">퇴근</button><!-- class="btn btn-secondary" -->
+            </div>
+
+     </form>
+    </div>
+
+    <script>
+        var date; 
+
+
+        // 현재시간 등록 스크립트
+        function nDate() { 
+            date = setInterval(function () { 
+                var today = "현재 시간 :  "; 
+                var newDate = new Date(); 
+                
+
+                today += newDate.getFullYear() + "년 "; 
+                today += ("0" + (newDate.getMonth() + 1)).slice(-2) + "월 ";
+                today += ("0" + newDate.getDate()).slice(-2) + "일 "; 
+                today += (newDate.getHours() + "시 ");
+                today += (newDate.getMinutes() + "분 ");
+                today += (newDate.getSeconds() + "초")
+                
+                $("#date").text(today); 
+            }, 1000); 
+        } 
+
+
+        // 출근 버튼 클릭시 현재 시간 함수 등록
+        $("#gw").click(function() {
+            var startTime = new Date().toLocaleString();    // 현재 시간을 저장
+            localStorage.setItem("startTime", startTime);   // 저장된 시간을 로컬 스토리지에 저장
+        });
+
+        // 퇴근 버튼 클릭시 현재시간 함수 등록
+        $("#lw").click(function() {
+            var endTime = new Date().toLocaleString();    // 현재 시간을 저장
+            localStorage.setItem("endTime", endTime);   // 저장된 시간을 로컬 스토리지에 저장
+        });
+
+
+        // 페이지 로드 후 실행
+        $(document).ready(function() {
+            nDate(); // 시간 출력 함수 실행
+
+            var startsaved = localStorage.getItem("startTime"); // 저장된 시간을 불러옴
+            if (startsaved) {
+            $("#sgw").text("출근한 시간 : " + startsaved); // 저장된 시간 출력
+            }
+        });
+        $(document).ready(function() {
+            nDate(); // 시간 출력 함수 실행
+
+            var endsaved = localStorage.getItem("endTime"); // 저장된 시간을 불러옴
+            if (endsaved) {
+            $("#slw").text("출근한 시간 : " + endsaved); // 저장된 시간 출력
+            }
+        });
+
+    </script>
+</body>
+</html>
